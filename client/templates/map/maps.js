@@ -14,7 +14,7 @@ Template.Map.helpers({
 /* Map: Lifecycle Hooks */
 /*****************************************************************************/
 
-/* Notes for Noah
+/* Notes
 Line 52: creates global variable (posts, of data-type featureGroup) to store posts in
 Line 100: adds posts to that featureGroup
 Line 104: adds the featureGroup 'posts' to map
@@ -30,25 +30,22 @@ On date and time: URL below is what I referenced
 https://meteor.hackpad.com/Meteor-Cookbook-Using-Dates-and-Times-qSQCGFc06gH
 If you ever want to display date&time, the moment.js package is really great for that.
 
-enjoy!
 */
 
 
-Template.Map.onCreated(function () {
+Template.Map.onCreated(function(){
 });
 
 Template.Map.onRendered(function(){
   L.Icon.Default.imagePath = 'packages/bevanhunt_leaflet/images';
-
   Session.set('coords', null)
   var map = L.map('map', {
     doubleClickZoom: false
   })
   map.setView([0, 0], 17);
   map.spin(true);
-
+  /////Constant Geolocation Update through 'coords' session
   Tracker.autorun(function() {
-    console.log("Running");
     Session.set('coords', Geolocation.latLng())
     if (Session.get('coords') != null) {
       map.spin(false);
@@ -58,43 +55,34 @@ Template.Map.onRendered(function(){
     }
   })
 
+  var mapboxURLOne = 'https://api.mapbox.com/styles/v1/elijahk/cinw81l640021b1ma3vv2j3s6/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiZWxpamFoayIsImEiOiJjaWw5cnprcGkwMGRudHlsem41Mm5obWlzIn0.usfH555I6BGhzP5r-Tqfkg';
 
-
-  //---Option 3----------*
-
-  L.tileLayer('https://api.mapbox.com/styles/v1/elijahk/cinw81l640021b1ma3vv2j3s6/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiZWxpamFoayIsImEiOiJjaWw5cnprcGkwMGRudHlsem41Mm5obWlzIn0.usfH555I6BGhzP5r-Tqfkg', {
+  L.tileLayer(mapboxURLOne, {
   maxZoom: 19
   }).addTo(map);
 
   var posts = new L.FeatureGroup();
   var fadeRate = 86400000*5
   //86400000 in a day
-
   var blueDot = L.icon({
     iconUrl: '/MapMarkers/BM.png',
-    //shadowUrl: 'joe_shadow.png',
     iconSize: [40, 40],
-    //shadowSize: [80, 80],
     iconAnchor: [20, 20],
-    //shadowAnchor: [10, 10],
     popupAnchor: [0,0]
   });
-
-
-  function showPostContents(e){}
 
   function addMarker(click) {
     if (Meteor.userId()) {
       var txt = prompt("What do you have to say about this location?");
       var time = new Date();
-      console.log(new Date().valueOf());
       //console.log(Meteor.user().services.facebook.name)
       if (txt) {
         Markers.insert({
           userId: Meteor.userId(),
           latlng: click.latlng,
           display: true,
-          text: txt, /*category: tag,*/
+          text: txt,
+          //category: tag,
           createdAt: time
         });
       }
@@ -128,14 +116,10 @@ Template.Map.onRendered(function(){
     console.log(e);
     Session.set("selectedPost", e.target.descrip);
   }
-  function tellMe(){
-    console.log(map);
-  }
-  //map.on('mousemove', populateMap);
+
   map.on('click', addMarker);
   map.on('click', clearPosts);
   map.on('click', populateMap);
-  map.on('click', tellMe);
 });
 
 Template.Map.onDestroyed(function () {
