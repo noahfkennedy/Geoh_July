@@ -4,8 +4,7 @@
 Template.Map.events({
 });
 
-//Oh hey!!!!
-var moose = 9;
+
 /*****************************************************************************/
 /* Map: Helpers */
 /*****************************************************************************/
@@ -32,6 +31,15 @@ On date and time: URL below is what I referenced
 https://meteor.hackpad.com/Meteor-Cookbook-Using-Dates-and-Times-qSQCGFc06gH
 If you ever want to display date&time, the moment.js package is really great for that.
 
+
+Quick things to work on atm:
+1. Search bar
+2. Moving add post functionality to a form with a submit button somewhere
+3. Giving the upvote downvote buttons functionality, i.e. sending numbers to be stored in post itself
+4. housing the upvote downvote info as well as post timers to the server
+5. adding photo functionality
+6. making posts change color aftera certain number of votes
+7. getting fb and google login working correctly on live version
 */
 
 
