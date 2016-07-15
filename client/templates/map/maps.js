@@ -98,6 +98,7 @@ Template.Map.onRendered(function(){
   }
 
   function populateMap(){
+    clearPosts();
     var currentTime = new Date().valueOf();
     Markers.find().map( function(u){
       var postAge = u.createdAt.valueOf();
@@ -122,8 +123,12 @@ Template.Map.onRendered(function(){
     Session.set("selectedPost", e.target.descrip);
   }
 
+  function revealMapObjects(){
+    console.log(map);
+  }
+
+  map.on('click', revealMapObjects)
   map.on('click', addMarker);
-  map.on('click', clearPosts);
   map.on('click', populateMap);
 });
 
