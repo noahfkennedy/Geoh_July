@@ -85,7 +85,7 @@ Template.Map.onRendered(function(){
         Markers.insert({
           userId: Meteor.userId(),
           latlng: click.latlng,
-          display: true,
+          hidden: false,
           text: txt,
           //category: tag,
           createdAt: time
