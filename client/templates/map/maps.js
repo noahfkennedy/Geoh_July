@@ -40,7 +40,10 @@ Template.Map.onRendered(function(){
   L.Icon.Default.imagePath = 'packages/bevanhunt_leaflet/images';
   Session.set('coords', null)
   var map = L.map('map', {
-    doubleClickZoom: false
+    doubleClickZoom: false,
+    maxZoom: 19,
+    enableHighAccuracy: true,
+    scrollWheelZoom: false
   })
   map.setView([0, 0], 17);
   map.spin(true);
@@ -52,7 +55,9 @@ Template.Map.onRendered(function(){
       var lat = Session.get('coords').lat;
       var lng = Session.get('coords').lng;
       map.setView([lat, lng],17);
+      populateMap();
     }
+    //populateMap();
   })
 
   var mapboxURLOne = 'https://api.mapbox.com/styles/v1/elijahk/cinw81l640021b1ma3vv2j3s6/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiZWxpamFoayIsImEiOiJjaWw5cnprcGkwMGRudHlsem41Mm5obWlzIn0.usfH555I6BGhzP5r-Tqfkg';
